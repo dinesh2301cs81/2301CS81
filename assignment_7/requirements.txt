@@ -1,0 +1,1 @@
+Foundry (forge, cast, anvil) and forge-std; install using the README commands. Solidity compiler pinned to 0.8.24 in foundry.toml.

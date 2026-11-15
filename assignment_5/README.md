@@ -1,0 +1,6 @@
+# Assignment 5: Blocks, PoW, Forks, and Reorg
+Install `python -m pip install -r requirements.txt`. Run `python chain.py fork`, `python chain.py bench` and `python -m pytest -q`.
+
+Header encoding (116 bytes): version uint32 big-endian (4), previous hash (32), Merkle root (32), timestamp uint64 big-endian (8), target uint256 big-endian (32), nonce uint64 big-endian (8). Block ID is SHA256(header); valid when unsigned SHA256 <= target. Work = floor(2^256/(target+1)), cumulative over ancestors. Genesis anchor uses 32 zero bytes. Block tx Merkle hashing is SHA256(00 || txid bytes), internal SHA256(01 || left || right); odd leaves duplicated. The first transaction must be a unique height-tagged coinbase with <=50+fees. Apply all ordinary signed transactions against a *copy* of the parent's UTXO state, then coinbase, then commit block state. Competing branches store per-tip snapshots. A higher-work branch replaces active state, restoring formerly spent outputs via snapshot replay semantics.
+
+Simulation: 2 easy-target blocks versus 1 hard-target block, and hard one wins. `bench` prints measured hashes/sec and target statistics plus reproducible 116-byte header hex. PoW is intentionally tiny for laptop demos. This educational implementation does not include a consensus-enforced retarget schedule, median-time rule, or network propagation.

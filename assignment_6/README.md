@@ -1,0 +1,6 @@
+# Assignment 6: Five-node localhost P2P blockchain demo
+`python -m pip install -r requirements.txt`, `python network.py`, `python -m pytest -q`.
+
+Protocol: localhost ports 50000..50004; uint32 big-endian length prefix, max 1,000,000 payload bytes; JSON `version:1` and `type`. Messages: handshake, peers, inv, get, tx, block, ping, pong, error. Per-read timeouts 5s; per-write 2s; duplicates suppressed using hashes. Invalid messages increment peer score; errors close connection. Mempool validates signature/outpoints against active ledger, rejects conflicting inputs, orders by descending fee-per-JSON-byte, and expires after 120s. Logs include timestamp/node_id/peer_id/object_id/event.
+
+Demo: partition [0,1] and [2,3,4]; mine competing blocks on either side; mine a second block on the 3-node side; heal and show all five agree on its two-block tip. IMPORTANT LIMITATION: the classroom demonstration explicitly synchronizes missing ancestors from a trusted local node after reconnect; full inventory-based ancestor synchronization, rate-limit token buckets, orphan transaction resurrection and persistent peer scoring are NOT fully implemented here. Add them before claiming full Assignment 6 acceptance.
